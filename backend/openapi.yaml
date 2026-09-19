@@ -10,6 +10,8 @@ paths:
     $ref: ./openapi/paths/ventas.yaml
   /ventas/csv:
     $ref: ./openapi/paths/ventas-csv.yaml
+  /ventas/consolidado:
+    $ref: ./openapi/paths/ventas-consolidado.yaml
 components:
   schemas:
     $ref: ./openapi/components/schemas.yaml

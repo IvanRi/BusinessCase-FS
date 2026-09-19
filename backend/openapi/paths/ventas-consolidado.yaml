@@ -1,0 +1,20 @@
+get:
+  summary: Consolidado de ventas del período
+  parameters:
+    - name: desde
+      in: query
+      schema:
+        type: string
+        format: date
+    - name: hasta
+      in: query
+      schema:
+        type: string
+        format: date
+  responses:
+    "200":
+      description: Totales del período (no paginado)
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Consolidado"

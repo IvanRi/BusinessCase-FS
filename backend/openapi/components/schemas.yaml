@@ -80,3 +80,40 @@ FilaInvalida:
       nullable: true
     motivo:
       type: string
+Consolidado:
+  type: object
+  required: [total, cantidad, por_medio_pago, por_dia]
+  properties:
+    total:
+      type: number
+    cantidad:
+      type: integer
+    por_medio_pago:
+      type: array
+      items:
+        $ref: "#/components/schemas/TotalPorMedioPago"
+    por_dia:
+      type: array
+      items:
+        $ref: "#/components/schemas/TotalPorDia"
+TotalPorMedioPago:
+  type: object
+  required: [medio_pago, total, cantidad]
+  properties:
+    medio_pago:
+      $ref: "#/components/schemas/MedioPago"
+    total:
+      type: number
+    cantidad:
+      type: integer
+TotalPorDia:
+  type: object
+  required: [fecha, total, cantidad]
+  properties:
+    fecha:
+      type: string
+      format: date
+    total:
+      type: number
+    cantidad:
+      type: integer
