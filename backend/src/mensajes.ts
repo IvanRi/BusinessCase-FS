@@ -42,3 +42,22 @@ export function requestInvalido(): {
     mensaje: "El cuerpo no se pudo leer.",
   };
 }
+
+export function cargaProcesada(
+  insertadas: number,
+  omitidas: number,
+  invalidas: number,
+): { codigo: typeof Codigo.CARGA_PROCESADA; mensaje: string } {
+  return {
+    codigo: Codigo.CARGA_PROCESADA,
+    mensaje: `${insertadas} insertadas, ${omitidas} omitidas, ${invalidas} inválidas.`,
+  };
+}
+
+export function csvInvalido(): { codigo: typeof Codigo.CSV_INVALIDO; mensaje: string } {
+  return {
+    codigo: Codigo.CSV_INVALIDO,
+    mensaje: "Archivo ilegible, sin header, formato no soportado o mayor a 1 MB.",
+  };
+}
+

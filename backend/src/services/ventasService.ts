@@ -1,35 +1,34 @@
 import { validarVenta } from "../domain/validador.js";
-import type { ResultadoCarga, Venta } from "../domain/tipos.js";
+import type { EntradaRegistro, ResultadoCarga, Venta } from "../domain/tipos.js";
 import type { VentasRepository } from "../repositories/ventasRepository.js";
 
 export class VentasService {
   constructor(private readonly repo: VentasRepository) {}
 
-  registrarVentas(entradas: unknown[]): ResultadoCarga {
+  registrarVentas(entradas: EntradaRegistro[]): ResultadoCarga {
     const invalidas: ResultadoCarga["invalidas"] = [];
     const validas: Venta[] = [];
     let omitidas = 0;
 
-    entradas.forEach((entrada, indice) => {
-      const resultado = validarVenta(entrada);
-      const fila = indice + 1;
+    for (const entrada of entradas) {
+      const resultado = validarVenta(entrada.datos);
       if (!resultado.ok) {
         invalidas.push({
-          fila,
+          fila: entrada.fila,
           id_venta: resultado.id_venta,
           motivo: resultado.motivo,
         });
-        return;
+        continue;
       }
 
       const yaEnLote = validas.some((venta) => venta.id_venta === resultado.venta.id_venta);
       if (yaEnLote) {
         omitidas += 1;
-        return;
+        continue;
       }
 
       validas.push(resultado.venta);
-    });
+    }
 
     const ventasInsertadas: Venta[] = [];
     for (const venta of validas) {

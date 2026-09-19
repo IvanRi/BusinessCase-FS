@@ -28,3 +28,9 @@ export interface ResultadoCarga {
   invalidas: FilaInvalida[];
   ventasInsertadas: Venta[];
 }
+
+export interface EntradaRegistro {
+  fila: number;
+  datos: unknown;
+}
+
