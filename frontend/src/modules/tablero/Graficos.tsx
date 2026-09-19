@@ -8,20 +8,18 @@ import {
   Tooltip,
 } from "chart.js";
 import { Bar, Doughnut } from "react-chartjs-2";
+import { Card } from "../../components/Card";
 import { Placeholder } from "../../components/Placeholder";
+import { COLOR_BRAND, COLORES_MEDIO } from "../../tema";
 import type { Consolidado } from "../../tipos";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
+ChartJS.defaults.font.family = "system-ui, sans-serif";
+ChartJS.defaults.color = "#52525b";
 
 const opcionesComunes = {
   responsive: true,
   maintainAspectRatio: false,
-};
-
-const coloresMedio = {
-  efectivo: "#65a30d",
-  tarjeta: "#2563eb",
-  transferencia: "#d97706",
 };
 
 export function Graficos({ consolidado }: { consolidado: Consolidado }) {
@@ -29,8 +27,8 @@ export function Graficos({ consolidado }: { consolidado: Consolidado }) {
 
   return (
     <div className="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-2">
-      <div className="min-w-0">
-        <h3 className="mb-2 text-sm font-medium text-zinc-700">Por día</h3>
+      <Card className="min-w-0">
+        <h3 className="mb-3 text-sm font-medium text-zinc-700">Por día</h3>
         {sinDatos || consolidado.por_dia.length === 0 ? (
           <Placeholder>Sin datos en el período</Placeholder>
         ) : (
@@ -39,7 +37,10 @@ export function Graficos({ consolidado }: { consolidado: Consolidado }) {
               options={{
                 ...opcionesComunes,
                 plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true } },
+                scales: {
+                  x: { grid: { display: false }, border: { display: false } },
+                  y: { beginAtZero: true, border: { display: false }, grid: { color: "#f4f4f5" } },
+                },
               }}
               data={{
                 labels: consolidado.por_dia.map((fila) => fila.fecha),
@@ -47,16 +48,18 @@ export function Graficos({ consolidado }: { consolidado: Consolidado }) {
                   {
                     label: "Total",
                     data: consolidado.por_dia.map((fila) => fila.total),
-                    backgroundColor: "#2563eb",
+                    backgroundColor: COLOR_BRAND,
+                    borderRadius: 8,
+                    borderSkipped: false,
                   },
                 ],
               }}
             />
           </div>
         )}
-      </div>
-      <div className="min-w-0">
-        <h3 className="mb-2 text-sm font-medium text-zinc-700">Por medio de pago</h3>
+      </Card>
+      <Card className="min-w-0">
+        <h3 className="mb-3 text-sm font-medium text-zinc-700">Por medio de pago</h3>
         {sinDatos || consolidado.por_medio_pago.length === 0 ? (
           <Placeholder>Sin datos en el período</Placeholder>
         ) : (
@@ -64,6 +67,7 @@ export function Graficos({ consolidado }: { consolidado: Consolidado }) {
             <Doughnut
               options={{
                 ...opcionesComunes,
+                cutout: "68%",
                 plugins: { legend: { position: "bottom" } },
               }}
               data={{
@@ -72,15 +76,16 @@ export function Graficos({ consolidado }: { consolidado: Consolidado }) {
                   {
                     data: consolidado.por_medio_pago.map((fila) => fila.total),
                     backgroundColor: consolidado.por_medio_pago.map(
-                      (fila) => coloresMedio[fila.medio_pago],
+                      (fila) => COLORES_MEDIO[fila.medio_pago],
                     ),
+                    borderWidth: 0,
                   },
                 ],
               }}
             />
           </div>
         )}
-      </div>
+      </Card>
     </div>
   );
 }

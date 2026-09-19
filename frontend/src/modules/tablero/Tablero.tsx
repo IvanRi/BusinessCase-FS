@@ -1,3 +1,4 @@
+import { Card } from "../../components/Card";
 import { useVentas } from "../../context/VentasContext";
 import { Graficos } from "./Graficos";
 
@@ -19,16 +20,20 @@ export function Tablero() {
   }
 
   return (
-    <section className={`mt-6 min-w-0 ${cargandoConsolidado ? "opacity-60" : ""}`}>
-      <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <article className="rounded-md border border-zinc-200 bg-white p-4">
-          <p className="text-sm text-zinc-500">Total</p>
-          <p className="text-2xl font-semibold tracking-tight">{pesos.format(consolidado.total)}</p>
-        </article>
-        <article className="rounded-md border border-zinc-200 bg-white p-4">
-          <p className="text-sm text-zinc-500">Cantidad</p>
-          <p className="text-2xl font-semibold tracking-tight">{consolidado.cantidad}</p>
-        </article>
+    <section className={`mt-6 min-w-0 space-y-4 ${cargandoConsolidado ? "opacity-60" : ""}`}>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <Card className="bg-gradient-to-br from-white to-brand-soft/70">
+          <p className="text-xs font-medium uppercase tracking-wide text-brand-dark">Total</p>
+          <p className="mt-1 text-2xl font-semibold tracking-tight text-zinc-900 sm:text-3xl">
+            {pesos.format(consolidado.total)}
+          </p>
+        </Card>
+        <Card>
+          <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">Cantidad</p>
+          <p className="mt-1 text-2xl font-semibold tracking-tight text-zinc-900 sm:text-3xl">
+            {consolidado.cantidad}
+          </p>
+        </Card>
       </div>
       <Graficos consolidado={consolidado} />
     </section>

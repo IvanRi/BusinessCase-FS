@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand: #8d4ef1;
+  --color-brand-dark: #6b2fd6;
+  --color-brand-soft: #f4ecfe;
+}
+
 body {
-  @apply min-h-screen overflow-x-hidden bg-zinc-50 text-zinc-900;
+  @apply min-h-screen overflow-x-hidden text-zinc-900 antialiased;
+  background:
+    radial-gradient(70rem 28rem at 8% -12%, var(--color-brand-soft) 0%, transparent 58%),
+    radial-gradient(50rem 22rem at 100% 0%, #ede9fe 0%, transparent 48%),
+    #fafafa;
 }
