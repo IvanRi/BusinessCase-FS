@@ -3,6 +3,7 @@
   "private": true,
   "workspaces": ["backend", "frontend"],
   "scripts": {
+    "predev": "node -e \"const { copyFileSync, existsSync } = require('fs'); if (!existsSync('frontend/.env')) copyFileSync('frontend/.env.example', 'frontend/.env')\"",
     "dev": "concurrently -n api,ui -c magenta,cyan \"npm run dev -w ventas-api\" \"npm run dev -w ventas-ui\""
   },
   "devDependencies": {

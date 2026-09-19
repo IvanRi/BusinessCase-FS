@@ -1,6 +1,6 @@
 import type { ErrorApi } from "../tipos";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
 export class ApiError extends Error {
   readonly status: number;
