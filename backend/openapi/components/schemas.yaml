@@ -1,0 +1,54 @@
+MedioPago:
+  type: string
+  enum: [efectivo, tarjeta, transferencia]
+Venta:
+  type: object
+  required:
+    - id_venta
+    - fecha
+    - cliente
+    - producto
+    - cantidad
+    - importe
+    - medio_pago
+  properties:
+    id_venta:
+      type: string
+      example: V-1001
+    fecha:
+      type: string
+      format: date
+      example: "2026-05-02"
+    cliente:
+      type: string
+    producto:
+      type: string
+    cantidad:
+      type: integer
+      minimum: 1
+    importe:
+      type: number
+      minimum: 0
+      description: Total de línea en pesos
+    medio_pago:
+      $ref: "#/components/schemas/MedioPago"
+Error:
+  type: object
+  required: [codigo, mensaje]
+  properties:
+    codigo:
+      type: string
+      enum: [VENTA_EXISTENTE, VENTA_INVALIDA, REQUEST_INVALIDO]
+    mensaje:
+      type: string
+AltaCreada:
+  type: object
+  required: [codigo, mensaje, venta]
+  properties:
+    codigo:
+      type: string
+      enum: [VENTA_CREADA]
+    mensaje:
+      type: string
+    venta:
+      $ref: "#/components/schemas/Venta"

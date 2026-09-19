@@ -1,0 +1,27 @@
+post:
+  summary: Alta de una venta
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/Venta"
+  responses:
+    "201":
+      description: Venta creada
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AltaCreada"
+    "400":
+      description: Venta inválida o cuerpo ilegible
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    "409":
+      description: Id de venta existente
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
