@@ -1,6 +1,7 @@
 import Database from "better-sqlite3";
 import { aCentavos, aPesos } from "../domain/dinero.js";
 import type { Consolidado } from "../dto/consolidado.js";
+import type { PaginaVentas } from "../dto/listado.js";
 import type { MedioPago, Venta } from "../domain/tipos.js";
 import type { VentasRepository } from "./ventasRepository.js";
 
@@ -64,15 +65,7 @@ export class SqliteVentasRepository implements VentasRepository {
       return undefined;
     }
 
-    return {
-      id_venta: row.id_venta,
-      fecha: row.fecha,
-      cliente: row.cliente,
-      producto: row.producto,
-      cantidad: row.cantidad,
-      importe: aPesos(row.importe_centavos),
-      medio_pago: row.medio_pago,
-    };
+    return aVenta(row);
   }
 
   getConsolidado(desde?: string, hasta?: string): Consolidado {
@@ -118,6 +111,51 @@ export class SqliteVentasRepository implements VentasRepository {
       })),
     };
   }
+
+  listar(
+    desde: string | undefined,
+    hasta: string | undefined,
+    pagina: number,
+    porPagina: number,
+  ): PaginaVentas {
+    const { where, params } = filtroPeriodo(desde, hasta);
+    const offset = (pagina - 1) * porPagina;
+
+    const { total } = this.db
+      .prepare(`SELECT COUNT(*) AS total FROM ventas ${where}`)
+      .get(...params) as { total: number };
+
+    const rows = this.db
+      .prepare(
+        `SELECT id_venta, fecha, cliente, producto, cantidad, importe_centavos, medio_pago
+         FROM ventas ${where}
+         ORDER BY fecha DESC, id_venta DESC
+         LIMIT ? OFFSET ?`,
+      )
+      .all(...params, porPagina, offset) as VentaRow[];
+
+    return {
+      ventas: rows.map(aVenta),
+      paginacion: {
+        pagina,
+        por_pagina: porPagina,
+        total,
+        total_paginas: total === 0 ? 0 : Math.ceil(total / porPagina),
+      },
+    };
+  }
+}
+
+function aVenta(row: VentaRow): Venta {
+  return {
+    id_venta: row.id_venta,
+    fecha: row.fecha,
+    cliente: row.cliente,
+    producto: row.producto,
+    cantidad: row.cantidad,
+    importe: aPesos(row.importe_centavos),
+    medio_pago: row.medio_pago,
+  };
 }
 
 function filtroPeriodo(desde?: string, hasta?: string): { where: string; params: string[] } {

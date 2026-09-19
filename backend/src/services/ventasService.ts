@@ -2,6 +2,7 @@ import { validarVenta } from "../domain/validador.js";
 import type { EntradaRegistro, Venta } from "../domain/tipos.js";
 import type { ResultadoCarga } from "../dto/carga.js";
 import type { Consolidado } from "../dto/consolidado.js";
+import type { PaginaVentas } from "../dto/listado.js";
 import type { VentasRepository } from "../repositories/ventasRepository.js";
 
 export class VentasService {
@@ -53,4 +54,27 @@ export class VentasService {
   obtenerConsolidado(desde?: string, hasta?: string): Consolidado {
     return this.repo.getConsolidado(desde, hasta);
   }
+
+  obtenerVentas(
+    desde?: string,
+    hasta?: string,
+    pagina?: number,
+    porPagina?: number,
+  ): PaginaVentas {
+    return this.repo.listar(desde, hasta, paginaEfectiva(pagina), porPaginaEfectiva(porPagina));
+  }
+}
+
+const POR_PAGINA_DEFAULT = 20;
+const POR_PAGINA_MAX = 100;
+
+function paginaEfectiva(pagina?: number): number {
+  return pagina !== undefined && Number.isInteger(pagina) && pagina >= 1 ? pagina : 1;
+}
+
+function porPaginaEfectiva(porPagina?: number): number {
+  if (porPagina === undefined || !Number.isInteger(porPagina) || porPagina < 1) {
+    return POR_PAGINA_DEFAULT;
+  }
+  return Math.min(porPagina, POR_PAGINA_MAX);
 }

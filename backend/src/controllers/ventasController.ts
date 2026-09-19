@@ -56,6 +56,14 @@ function queryTexto(valor: unknown): string | undefined {
   return typeof valor === "string" && valor.length > 0 ? valor : undefined;
 }
 
+function queryEntero(valor: unknown): number | undefined {
+  if (typeof valor !== "string" || valor.length === 0) {
+    return undefined;
+  }
+  const n = Number(valor);
+  return Number.isInteger(n) ? n : undefined;
+}
+
 export function consolidadoHandler(service: VentasService) {
   return (req: Request, res: Response): void => {
     const consolidado = service.obtenerConsolidado(
@@ -63,6 +71,18 @@ export function consolidadoHandler(service: VentasService) {
       queryTexto(req.query.hasta),
     );
     res.status(200).json(consolidado);
+  };
+}
+
+export function listadoHandler(service: VentasService) {
+  return (req: Request, res: Response): void => {
+    const pagina = service.obtenerVentas(
+      queryTexto(req.query.desde),
+      queryTexto(req.query.hasta),
+      queryEntero(req.query.pagina),
+      queryEntero(req.query.por_pagina),
+    );
+    res.status(200).json(pagina);
   };
 }
 
@@ -115,5 +135,6 @@ export function ventasRouter(service: VentasService): Router {
   router.post("/csv", capturaErrorCsv, cargaCsvHandler(service));
   router.post("/", altaVentaHandler(service));
   router.get("/consolidado", consolidadoHandler(service));
+  router.get("/", listadoHandler(service));
   return router;
 }
