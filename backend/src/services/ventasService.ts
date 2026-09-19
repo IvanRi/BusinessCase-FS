@@ -1,5 +1,6 @@
 import { validarVenta } from "../domain/validador.js";
-import type { EntradaRegistro, ResultadoCarga, Venta } from "../domain/tipos.js";
+import type { EntradaRegistro, Venta } from "../domain/tipos.js";
+import type { ResultadoCarga } from "../dto/carga.js";
 import type { VentasRepository } from "../repositories/ventasRepository.js";
 
 export class VentasService {

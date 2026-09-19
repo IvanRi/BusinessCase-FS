@@ -16,19 +16,6 @@ export interface Venta {
   medio_pago: MedioPago;
 }
 
-export interface FilaInvalida {
-  fila: number;
-  id_venta: string | null;
-  motivo: string;
-}
-
-export interface ResultadoCarga {
-  insertadas: number;
-  omitidas: number;
-  invalidas: FilaInvalida[];
-  ventasInsertadas: Venta[];
-}
-
 export interface EntradaRegistro {
   fila: number;
   datos: unknown;

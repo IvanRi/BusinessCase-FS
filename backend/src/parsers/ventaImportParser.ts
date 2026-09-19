@@ -1,5 +1,5 @@
-import type { FilaInvalida } from "../domain/tipos.js";
 import type { EntradaRegistro } from "../domain/tipos.js";
+import type { FilaInvalida } from "../dto/carga.js";
 
 export class FormatoNoSoportadoError extends Error {
   constructor() {
