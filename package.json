@@ -1,0 +1,11 @@
+{
+  "name": "ventas",
+  "private": true,
+  "workspaces": ["backend", "frontend"],
+  "scripts": {
+    "dev": "concurrently -n api,ui -c magenta,cyan \"npm run dev -w ventas-api\" \"npm run dev -w ventas-ui\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
