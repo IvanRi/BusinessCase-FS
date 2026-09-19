@@ -22,6 +22,7 @@ Tests de la API: `npm test -w ventas-api`.
 ## Stack
 
 Express + TypeScript `strict`, React + TypeScript, SQLite. Express me parece mas que suficiente para lo que se pide y es el framework mas sencillo de entender de entrada asi que descarte otros como Nest. Sqlite me ayuda en este caso para que el reviewer pueda levantar y probar rapidamente lo usaria solo para este caso. React + vite en lo personal creo que hoy es la opcion mas usada en el mercado.
+Desarrolle basandone en el desarrollo del spec primero bajando la logica de negocio y luego integrando primero los test de la api para usarlos como guia con la IA.
 
 ## Que deje de lado
 
