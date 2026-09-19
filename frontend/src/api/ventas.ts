@@ -1,5 +1,5 @@
 import { apiFetch } from "./client";
-import type { Consolidado, PaginaVentas } from "../tipos";
+import type { AltaVenta, Consolidado, PaginaVentas, Venta } from "../tipos";
 
 export function getConsolidado(
   desde: string,
@@ -24,4 +24,12 @@ export function getVentas(
     por_pagina: String(porPagina),
   });
   return apiFetch(`/ventas?${query}`, { signal });
+}
+
+export function crearVenta(venta: Venta, signal?: AbortSignal): Promise<AltaVenta> {
+  return apiFetch("/ventas", {
+    method: "POST",
+    body: JSON.stringify(venta),
+    signal,
+  });
 }

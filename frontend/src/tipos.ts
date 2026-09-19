@@ -45,3 +45,9 @@ export interface PaginaVentas {
   ventas: Venta[];
   paginacion: Paginacion;
 }
+
+export interface AltaVenta {
+  codigo: string;
+  mensaje: string;
+  venta: Venta;
+}

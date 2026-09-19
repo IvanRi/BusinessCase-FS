@@ -16,6 +16,7 @@ interface VentasContextValue {
   cargandoListado: boolean;
   errorListado: string | undefined;
   irAPagina: (pagina: number) => void;
+  recargar: () => void;
 }
 
 const VentasContext = createContext<VentasContextValue | undefined>(undefined);
@@ -34,6 +35,7 @@ export function VentasProvider({ children }: { children: ReactNode }) {
   const [listado, setListado] = useState<PaginaVentas | undefined>(undefined);
   const [cargandoListado, setCargandoListado] = useState(false);
   const [errorListado, setErrorListado] = useState<string | undefined>(undefined);
+  const [version, setVersion] = useState(0);
 
   function setPeriodo(siguiente: Periodo) {
     setPeriodoState(siguiente);
@@ -42,6 +44,11 @@ export function VentasProvider({ children }: { children: ReactNode }) {
 
   function irAPagina(siguiente: number) {
     setPagina(siguiente);
+  }
+
+  function recargar() {
+    setPagina(1);
+    setVersion((n) => n + 1);
   }
 
   useEffect(() => {
@@ -68,7 +75,7 @@ export function VentasProvider({ children }: { children: ReactNode }) {
       });
 
     return () => ac.abort();
-  }, [rango.desde, rango.hasta]);
+  }, [rango.desde, rango.hasta, version]);
 
   useEffect(() => {
     const ac = new AbortController();
@@ -94,7 +101,7 @@ export function VentasProvider({ children }: { children: ReactNode }) {
       });
 
     return () => ac.abort();
-  }, [rango.desde, rango.hasta, pagina]);
+  }, [rango.desde, rango.hasta, pagina, version]);
 
   return (
     <VentasContext.Provider
@@ -109,6 +116,7 @@ export function VentasProvider({ children }: { children: ReactNode }) {
         cargandoListado,
         errorListado,
         irAPagina,
+        recargar,
       }}
     >
       {children}

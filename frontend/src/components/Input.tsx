@@ -1,23 +1,22 @@
-import { forwardRef, type ReactNode, type SelectHTMLAttributes } from "react";
+import { forwardRef, type InputHTMLAttributes } from "react";
 
-interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
-  children: ReactNode;
 }
 
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
-  { label, id, className = "", error, children, ...props },
+export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+  { label, id, className = "", error, ...props },
   ref,
 ) {
-  const selectId = id ?? label.toLowerCase().replace(/\s+/g, "-");
-  const errorId = error ? `${selectId}-error` : undefined;
+  const inputId = id ?? label.toLowerCase().replace(/\s+/g, "-");
+  const errorId = error ? `${inputId}-error` : undefined;
   return (
-    <label className="flex min-w-0 w-full flex-col gap-1.5 text-sm sm:w-auto sm:min-w-[10rem]" htmlFor={selectId}>
+    <label className="flex min-w-0 w-full flex-col gap-1.5 text-sm" htmlFor={inputId}>
       <span className="font-medium text-zinc-600">{label}</span>
-      <select
+      <input
         ref={ref}
-        id={selectId}
+        id={inputId}
         aria-invalid={Boolean(error)}
         aria-describedby={errorId}
         className={`min-h-11 w-full rounded-xl border bg-white px-3 py-2 text-base text-zinc-900 shadow-sm transition focus:outline-none focus:ring-2 sm:text-sm ${
@@ -26,9 +25,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
             : "border-zinc-200 focus:border-brand focus:ring-brand/25"
         } ${className}`}
         {...props}
-      >
-        {children}
-      </select>
+      />
       {error ? (
         <span id={errorId} role="alert" className="text-xs text-red-700">
           {error}
