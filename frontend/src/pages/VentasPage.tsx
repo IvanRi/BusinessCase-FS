@@ -1,4 +1,4 @@
-import { AltaVenta } from "../modules/carga/AltaVenta";
+import { AccionesCarga } from "../modules/carga/AccionesCarga";
 import { DetalleVentas } from "../modules/detalle/DetalleVentas";
 import { FiltroPeriodo } from "../modules/filtro/FiltroPeriodo";
 import { Tablero } from "../modules/tablero/Tablero";
@@ -11,7 +11,7 @@ export function VentasPage() {
           <h1 className="text-xl font-semibold tracking-tight text-zinc-900 sm:text-2xl">Resumen</h1>
           <p className="text-sm text-zinc-500">Período, totales y medios de pago</p>
         </div>
-        <AltaVenta />
+        <AccionesCarga />
       </header>
       <FiltroPeriodo />
       <Tablero />

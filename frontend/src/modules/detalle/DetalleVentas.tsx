@@ -1,5 +1,6 @@
 import { Button } from "../../components/Button";
 import { Card } from "../../components/Card";
+import { Loader } from "../../components/Loader";
 import { Placeholder } from "../../components/Placeholder";
 import { useVentas } from "../../context/VentasContext";
 import { pesos } from "../../helpers/formato";
@@ -18,14 +19,15 @@ export function DetalleVentas() {
   }
 
   if (!listado) {
-    return <p className="mt-6 text-sm text-zinc-500">Cargando detalle…</p>;
+    return <Loader className="mt-6" label="Cargando detalle…" />;
   }
 
   const { ventas, paginacion } = listado;
   const sinFilas = ventas.length === 0;
 
   return (
-    <section className={`mt-6 min-w-0 ${cargandoListado ? "opacity-60" : ""}`}>
+    <section className="relative mt-6 min-w-0">
+      {cargandoListado ? <Loader overlay label="Cargando detalle…" /> : null}
       <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <h2 className="text-lg font-semibold tracking-tight text-zinc-900">Detalle</h2>
         <p className="text-sm text-zinc-500">{paginacion.total} ventas en el período</p>

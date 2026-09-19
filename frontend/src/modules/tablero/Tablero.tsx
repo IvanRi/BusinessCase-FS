@@ -1,5 +1,6 @@
 import { pesos } from "../../helpers/formato";
 import { Card } from "../../components/Card";
+import { Loader } from "../../components/Loader";
 import { useVentas } from "../../context/VentasContext";
 import { Graficos } from "./Graficos";
 
@@ -15,11 +16,12 @@ export function Tablero() {
   }
 
   if (!consolidado) {
-    return <p className="mt-6 text-sm text-zinc-500">Cargando…</p>;
+    return <Loader className="mt-6" />;
   }
 
   return (
-    <section className={`mt-6 min-w-0 space-y-4 ${cargandoConsolidado ? "opacity-60" : ""}`}>
+    <section className="relative mt-6 min-w-0 space-y-4">
+      {cargandoConsolidado ? <Loader overlay /> : null}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <Card className="bg-gradient-to-br from-white to-brand-soft/70">
           <p className="text-xs font-medium uppercase tracking-wide text-brand-dark">Total</p>

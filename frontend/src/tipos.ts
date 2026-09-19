@@ -51,3 +51,25 @@ export interface AltaVenta {
   mensaje: string;
   venta: Venta;
 }
+
+export interface FilaInvalida {
+  fila: number;
+  id_venta: string | null;
+  motivo: string;
+}
+
+export interface CargaCsv {
+  codigo: string;
+  mensaje: string;
+  insertadas: number;
+  omitidas: number;
+  invalidas: FilaInvalida[];
+}
+
+export type TonoToast = "ok" | "error";
+
+export interface AvisoCarga {
+  mensaje: string;
+  tono: TonoToast;
+  detalle?: string[];
+}

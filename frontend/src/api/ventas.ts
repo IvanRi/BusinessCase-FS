@@ -1,5 +1,5 @@
 import { apiFetch } from "./client";
-import type { AltaVenta, Consolidado, PaginaVentas, Venta } from "../tipos";
+import type { AltaVenta, CargaCsv, Consolidado, PaginaVentas, Venta } from "../tipos";
 
 export function getConsolidado(
   desde: string,
@@ -32,4 +32,10 @@ export function crearVenta(venta: Venta, signal?: AbortSignal): Promise<AltaVent
     body: JSON.stringify(venta),
     signal,
   });
+}
+
+export function cargarCsv(archivo: File, signal?: AbortSignal): Promise<CargaCsv> {
+  const body = new FormData();
+  body.append("file", archivo);
+  return apiFetch("/ventas/csv", { method: "POST", body, signal });
 }
