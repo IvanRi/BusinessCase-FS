@@ -8,6 +8,8 @@ paths:
     $ref: ./openapi/paths/health.yaml
   /ventas:
     $ref: ./openapi/paths/ventas.yaml
+  /ventas/csv:
+    $ref: ./openapi/paths/ventas-csv.yaml
 components:
   schemas:
     $ref: ./openapi/components/schemas.yaml

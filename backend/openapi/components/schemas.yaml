@@ -38,7 +38,7 @@ Error:
   properties:
     codigo:
       type: string
-      enum: [VENTA_EXISTENTE, VENTA_INVALIDA, REQUEST_INVALIDO]
+      enum: [VENTA_EXISTENTE, VENTA_INVALIDA, REQUEST_INVALIDO, CSV_INVALIDO]
     mensaje:
       type: string
 AltaCreada:
@@ -52,3 +52,31 @@ AltaCreada:
       type: string
     venta:
       $ref: "#/components/schemas/Venta"
+CargaProcesada:
+  type: object
+  required: [codigo, mensaje, insertadas, omitidas, invalidas]
+  properties:
+    codigo:
+      type: string
+      enum: [CARGA_PROCESADA]
+    mensaje:
+      type: string
+    insertadas:
+      type: integer
+    omitidas:
+      type: integer
+    invalidas:
+      type: array
+      items:
+        $ref: "#/components/schemas/FilaInvalida"
+FilaInvalida:
+  type: object
+  required: [fila, id_venta, motivo]
+  properties:
+    fila:
+      type: integer
+    id_venta:
+      type: string
+      nullable: true
+    motivo:
+      type: string

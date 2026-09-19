@@ -1,0 +1,26 @@
+post:
+  summary: Carga masiva de ventas por CSV
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          required: [file]
+          properties:
+            file:
+              type: string
+              format: binary
+  responses:
+    "200":
+      description: Carga procesada (parcial)
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CargaProcesada"
+    "400":
+      description: Archivo ilegible, sin header, formato no soportado o mayor a 1 MB
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
