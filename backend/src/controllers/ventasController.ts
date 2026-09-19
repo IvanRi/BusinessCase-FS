@@ -52,6 +52,20 @@ export function altaVentaHandler(service: VentasService) {
   };
 }
 
+function queryTexto(valor: unknown): string | undefined {
+  return typeof valor === "string" && valor.length > 0 ? valor : undefined;
+}
+
+export function consolidadoHandler(service: VentasService) {
+  return (req: Request, res: Response): void => {
+    const consolidado = service.obtenerConsolidado(
+      queryTexto(req.query.desde),
+      queryTexto(req.query.hasta),
+    );
+    res.status(200).json(consolidado);
+  };
+}
+
 export function cargaCsvHandler(service: VentasService) {
   return (req: Request, res: Response): void => {
     const archivo = req.file;
@@ -100,5 +114,6 @@ export function ventasRouter(service: VentasService): Router {
   const router = Router();
   router.post("/csv", capturaErrorCsv, cargaCsvHandler(service));
   router.post("/", altaVentaHandler(service));
+  router.get("/consolidado", consolidadoHandler(service));
   return router;
 }

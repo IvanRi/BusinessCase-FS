@@ -1,6 +1,7 @@
 import { validarVenta } from "../domain/validador.js";
 import type { EntradaRegistro, Venta } from "../domain/tipos.js";
 import type { ResultadoCarga } from "../dto/carga.js";
+import type { Consolidado } from "../dto/consolidado.js";
 import type { VentasRepository } from "../repositories/ventasRepository.js";
 
 export class VentasService {
@@ -47,5 +48,9 @@ export class VentasService {
       invalidas,
       ventasInsertadas,
     };
+  }
+
+  obtenerConsolidado(desde?: string, hasta?: string): Consolidado {
+    return this.repo.getConsolidado(desde, hasta);
   }
 }

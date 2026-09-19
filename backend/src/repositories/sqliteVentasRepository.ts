@@ -1,5 +1,6 @@
 import Database from "better-sqlite3";
 import { aCentavos, aPesos } from "../domain/dinero.js";
+import type { Consolidado } from "../dto/consolidado.js";
 import type { MedioPago, Venta } from "../domain/tipos.js";
 import type { VentasRepository } from "./ventasRepository.js";
 
@@ -73,4 +74,65 @@ export class SqliteVentasRepository implements VentasRepository {
       medio_pago: row.medio_pago,
     };
   }
+
+  getConsolidado(desde?: string, hasta?: string): Consolidado {
+    const { where, params } = filtroPeriodo(desde, hasta);
+
+    const resumen = this.db
+      .prepare(
+        `SELECT COALESCE(SUM(importe_centavos), 0) AS total_centavos, COUNT(*) AS cantidad
+         FROM ventas ${where}`,
+      )
+      .get(...params) as { total_centavos: number; cantidad: number };
+
+    const porMedio = this.db
+      .prepare(
+        `SELECT medio_pago, SUM(importe_centavos) AS total_centavos, COUNT(*) AS cantidad
+         FROM ventas ${where}
+         GROUP BY medio_pago
+         ORDER BY medio_pago`,
+      )
+      .all(...params) as Array<{ medio_pago: MedioPago; total_centavos: number; cantidad: number }>;
+
+    const porDia = this.db
+      .prepare(
+        `SELECT fecha, SUM(importe_centavos) AS total_centavos, COUNT(*) AS cantidad
+         FROM ventas ${where}
+         GROUP BY fecha
+         ORDER BY fecha`,
+      )
+      .all(...params) as Array<{ fecha: string; total_centavos: number; cantidad: number }>;
+
+    return {
+      total: aPesos(resumen.total_centavos),
+      cantidad: resumen.cantidad,
+      por_medio_pago: porMedio.map((fila) => ({
+        medio_pago: fila.medio_pago,
+        total: aPesos(fila.total_centavos),
+        cantidad: fila.cantidad,
+      })),
+      por_dia: porDia.map((fila) => ({
+        fecha: fila.fecha,
+        total: aPesos(fila.total_centavos),
+        cantidad: fila.cantidad,
+      })),
+    };
+  }
+}
+
+function filtroPeriodo(desde?: string, hasta?: string): { where: string; params: string[] } {
+  const condiciones: string[] = [];
+  const params: string[] = [];
+  if (desde) {
+    condiciones.push("fecha >= ?");
+    params.push(desde);
+  }
+  if (hasta) {
+    condiciones.push("fecha <= ?");
+    params.push(hasta);
+  }
+  return {
+    where: condiciones.length > 0 ? `WHERE ${condiciones.join(" AND ")}` : "",
+    params,
+  };
 }
