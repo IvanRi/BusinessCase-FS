@@ -1,4 +1,5 @@
 import { fileURLToPath } from "node:url";
+import cors from "cors";
 import express, { type Express, type NextFunction, type Request, type Response } from "express";
 import swaggerUi from "swagger-ui-express";
 import { ventasRouter } from "./controllers/ventasController.js";
@@ -13,6 +14,7 @@ function openApiSpec(): object {
 
 export function createApp(repo: VentasRepository): Express {
   const app = express();
+  app.use(cors());
   app.use(express.json());
 
   app.use((err: unknown, _req: Request, res: Response, next: NextFunction) => {
