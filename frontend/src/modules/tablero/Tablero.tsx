@@ -1,8 +1,7 @@
+import { pesos } from "../../helpers/formato";
 import { Card } from "../../components/Card";
 import { useVentas } from "../../context/VentasContext";
 import { Graficos } from "./Graficos";
-
-const pesos = new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS" });
 
 export function Tablero() {
   const { consolidado, cargandoConsolidado, errorConsolidado } = useVentas();

@@ -1,7 +1,7 @@
 import { Card } from "../../components/Card";
 import { Select } from "../../components/Select";
 import { useVentas } from "../../context/VentasContext";
-import { ANIOS, MESES, type MesPeriodo } from "../../periodos";
+import { ANIOS, MESES, type MesPeriodo } from "../../helpers/periodos";
 
 export function FiltroPeriodo() {
   const { periodo, setPeriodo, rango } = useVentas();

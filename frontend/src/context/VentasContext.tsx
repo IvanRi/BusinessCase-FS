@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { getConsolidado } from "../api/ventas";
-import { PERIODO_DEFAULT, rangoPeriodo, type Periodo } from "../periodos";
+import { PERIODO_DEFAULT, rangoPeriodo, type Periodo } from "../helpers/periodos";
 import type { Consolidado } from "../tipos";
 
 interface VentasContextValue {
