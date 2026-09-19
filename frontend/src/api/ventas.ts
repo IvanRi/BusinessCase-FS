@@ -1,5 +1,5 @@
 import { apiFetch } from "./client";
-import type { Consolidado } from "../tipos";
+import type { Consolidado, PaginaVentas } from "../tipos";
 
 export function getConsolidado(
   desde: string,
@@ -8,4 +8,20 @@ export function getConsolidado(
 ): Promise<Consolidado> {
   const query = new URLSearchParams({ desde, hasta });
   return apiFetch(`/ventas/consolidado?${query}`, { signal });
+}
+
+export function getVentas(
+  desde: string,
+  hasta: string,
+  pagina: number,
+  porPagina: number,
+  signal?: AbortSignal,
+): Promise<PaginaVentas> {
+  const query = new URLSearchParams({
+    desde,
+    hasta,
+    pagina: String(pagina),
+    por_pagina: String(porPagina),
+  });
+  return apiFetch(`/ventas?${query}`, { signal });
 }

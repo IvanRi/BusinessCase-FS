@@ -1,4 +1,5 @@
 import { FiltroPeriodo } from "../modules/filtro/FiltroPeriodo";
+import { DetalleVentas } from "../modules/detalle/DetalleVentas";
 import { Tablero } from "../modules/tablero/Tablero";
 
 export function VentasPage() {
@@ -10,6 +11,7 @@ export function VentasPage() {
       </header>
       <FiltroPeriodo />
       <Tablero />
+      <DetalleVentas />
     </main>
   );
 }

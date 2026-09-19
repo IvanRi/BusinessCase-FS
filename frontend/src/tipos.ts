@@ -23,3 +23,25 @@ export interface ErrorApi {
   codigo: string;
   mensaje: string;
 }
+
+export interface Venta {
+  id_venta: string;
+  fecha: string;
+  cliente: string;
+  producto: string;
+  cantidad: number;
+  importe: number;
+  medio_pago: MedioPago;
+}
+
+export interface Paginacion {
+  pagina: number;
+  por_pagina: number;
+  total: number;
+  total_paginas: number;
+}
+
+export interface PaginaVentas {
+  ventas: Venta[];
+  paginacion: Paginacion;
+}
