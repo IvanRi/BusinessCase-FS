@@ -117,3 +117,26 @@ TotalPorDia:
       type: number
     cantidad:
       type: integer
+PaginaVentas:
+  type: object
+  required: [ventas, paginacion]
+  properties:
+    ventas:
+      type: array
+      items:
+        $ref: "#/components/schemas/Venta"
+    paginacion:
+      $ref: "#/components/schemas/Paginacion"
+Paginacion:
+  type: object
+  required: [pagina, por_pagina, total, total_paginas]
+  properties:
+    pagina:
+      type: integer
+    por_pagina:
+      type: integer
+    total:
+      type: integer
+      description: Cantidad de ventas del período, no el tamaño de la página
+    total_paginas:
+      type: integer
