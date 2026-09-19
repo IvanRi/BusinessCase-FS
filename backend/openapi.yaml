@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: API de ventas
   version: 0.1.0
-  description: Rebanada B1 — alta unitaria de ventas.
+  description: Alta, carga CSV, consolidado y detalle paginado de ventas.
 paths:
   /health:
     $ref: ./openapi/paths/health.yaml
