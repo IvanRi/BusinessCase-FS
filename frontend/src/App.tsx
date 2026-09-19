@@ -1,10 +1,10 @@
-const API_URL = import.meta.env.VITE_API_URL;
+import { VentasProvider } from "./context/VentasContext";
+import { VentasPage } from "./pages/VentasPage";
 
 export function App() {
   return (
-    <main>
-      <h1>Ventas</h1>
-      <p>API: {API_URL}</p>
-    </main>
+    <VentasProvider>
+      <VentasPage />
+    </VentasProvider>
   );
 }
